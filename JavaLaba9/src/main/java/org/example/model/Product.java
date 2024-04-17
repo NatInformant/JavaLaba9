@@ -24,8 +24,8 @@ public class Product {
     public void setName(String currentProductNewName) {
         name = currentProductNewName;
     }
-    public void setIsMarked(boolean marked) {
-        isMarked = marked;
+    public void setIsMarked() {
+        isMarked = !isMarked;
     }
 
 }
