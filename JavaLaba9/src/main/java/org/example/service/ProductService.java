@@ -9,9 +9,11 @@ public class ProductService {
     private final ArrayList<Product> products = new ArrayList<Product>();
     private int idCounter = 0;
 
-    public void addProduct(String name) {
-        products.add(new Product(idCounter, name));
+    public Product addProduct(String name) {
+        Product newProduct = new Product(idCounter, name);
+        products.add(newProduct);
         idCounter++;
+        return newProduct;
     }
 
     public void markProduct(int id) {
@@ -23,5 +25,8 @@ public class ProductService {
                 .filter(product -> product.getId() == id)
                 .findFirst()
                 .get());
+    }
+    public ArrayList<Product> getProductList() {
+        return products;
     }
 }
