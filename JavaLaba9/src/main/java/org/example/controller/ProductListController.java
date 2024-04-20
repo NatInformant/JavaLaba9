@@ -21,6 +21,11 @@ public class ProductListController {
     public ResponseEntity<Product> createItem(@RequestBody JSONObject jsonItem) {
         return new ResponseEntity<>(productService.addProduct(jsonItem.getAsString("name")), HttpStatus.OK);
     }
+    @PutMapping("/items/{id}")
+    public HttpStatus markItem(@PathVariable int id) {
+        productService.markProduct(id);
+        return HttpStatus.OK;
+    }
     @DeleteMapping("/items/{id}")
     public HttpStatus deleteItem(@PathVariable int id) {
         productService.deleteProduct(id);

@@ -15,18 +15,21 @@ public class ProductService {
         idCounter++;
         return newProduct;
     }
-
+    public ArrayList<Product> getProductList() {
+        return products;
+    }
     public void markProduct(int id) {
-        products.get(id).setIsMarked();
+        getProductById(id).setIsMarked();
     }
 
     public void deleteProduct(int id) {
-        products.remove(products.stream()
+        products.remove(getProductById(id));
+    }
+
+    public Product getProductById(int id){
+        return products.stream()
                 .filter(product -> product.getId() == id)
                 .findFirst()
-                .get());
-    }
-    public ArrayList<Product> getProductList() {
-        return products;
+                .get();
     }
 }

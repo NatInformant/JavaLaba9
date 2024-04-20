@@ -46,6 +46,26 @@ async function deleteItem(id) {
         console.log(error);
     }
 }
+// Изменение продукта
+async function editItem(id, isMarked) {
+    try {
+        let response = await fetch(apiUrl + '/' + encodeURIComponent(id), {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ isMarked: isMarked })
+        });
+        let data = await response.json();
+
+        getItems().then(data => {
+            displayList(data);
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 // Отображение списка продуктов
 function displayList(items) {
     let list = document.getElementById("list");
@@ -66,10 +86,11 @@ function displayList(items) {
 
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkbox.checked = item.bought;
-        /*checkbox.onclick = function() {
-            editItem(item.id, !item.bought);
-        };*/
+
+        checkbox.checked = item.isMarked;
+        checkbox.onclick = function() {
+            editItem(item.id, !item.isMarked);
+        };
         li.insertBefore(checkbox, li.firstChild);
 
         list.appendChild(li);
