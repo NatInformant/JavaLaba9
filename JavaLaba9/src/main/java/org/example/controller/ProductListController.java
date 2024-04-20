@@ -6,7 +6,6 @@ import org.example.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,13 +13,15 @@ public class ProductListController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/items")
-    public Iterable<Product> itemList() { return productService.getProductList(); }
-
     @PostMapping("/items")
-    public ResponseEntity<Product> createItem(@RequestBody JSONObject jsonItem) {
-        return new ResponseEntity<>(productService.addProduct(jsonItem.getAsString("name")), HttpStatus.OK);
+    public HttpStatus createItem(@RequestBody JSONObject jsonItem) {
+        productService.addProduct(jsonItem.getAsString("name"));
+        return HttpStatus.OK;
     }
+
+    // Спринг сам приобразовывает возвращаемую коллекцию в JSON-массив и добавляет его в тело http-ответа
+    @GetMapping("/items")
+    public Iterable<Product> getItemList() { return productService.getProductList(); }
     @PutMapping("/items/{id}")
     public HttpStatus markItem(@PathVariable int id) {
         productService.markProduct(id);
