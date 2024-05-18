@@ -1,35 +1,51 @@
 package org.example.service;
 
 import org.example.model.Product;
+import org.example.repository.ProductsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Optional;
+
 @Service
 public class ProductService {
-    private final ArrayList<Product> products = new ArrayList<Product>();
-    private int idCounter = 0;
+    @Autowired
+    private ProductsRepository productsRepository;
 
     public Product addProduct(String name) {
-        Product newProduct = new Product(idCounter, name);
-        products.add(newProduct);
-        idCounter++;
+        Product newProduct = new Product(name);
+
+        try {
+            productsRepository.save(newProduct);
+        } catch (Exception e) {
+            return null;
+        }
+
         return newProduct;
     }
-    public ArrayList<Product> getProductList() {
-        return products;
-    }
-    public void markProduct(int id) {
-        getProductById(id).setIsMarked();
+
+    public Iterable<Product> getProductList() {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        return productsRepository.findAll(sort);
     }
 
-    public void deleteProduct(int id) {
-        products.remove(getProductById(id));
+    public void markProduct(Long id) {
+        Product currentProduct = getProductById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found for this id: " + id));
+        currentProduct.setIsMarked();
+        productsRepository.save(currentProduct);
     }
 
-    public Product getProductById(int id){
-        return products.stream()
-                .filter(product -> product.getId() == id)
-                .findFirst()
-                .get();
+    public void deleteProduct(Long id) {
+        try {
+            productsRepository.deleteById(id);
+        } catch (Exception e) {
+        }
+    }
+
+    public Optional<Product> getProductById(Long id) {
+        return productsRepository.findById(id);
     }
 }

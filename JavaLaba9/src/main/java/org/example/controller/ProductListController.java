@@ -23,12 +23,12 @@ public class ProductListController {
     @GetMapping("/items")
     public Iterable<Product> getItemList() { return productService.getProductList(); }
     @PutMapping("/items/{id}")
-    public HttpStatus markItem(@PathVariable int id) {
+    public HttpStatus markItem(@PathVariable Long id) {
         productService.markProduct(id);
         return HttpStatus.OK;
     }
     @DeleteMapping("/items/{id}")
-    public HttpStatus deleteItem(@PathVariable int id) {
+    public HttpStatus deleteItem(@PathVariable Long id) {
         productService.deleteProduct(id);
         return HttpStatus.OK;
     }
