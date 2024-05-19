@@ -1,7 +1,7 @@
-package org.example.service;
+package com.example.lab9.service;
 
-import org.example.model.Product;
-import org.example.repository.ProductsRepository;
+import com.example.lab9.model.Product;
+import com.example.lab9.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;

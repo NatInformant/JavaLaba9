@@ -1,4 +1,4 @@
-package org.example.model;
+package com.example.lab9.model;
 
 import javax.persistence.*;
 
