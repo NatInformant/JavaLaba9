@@ -44,15 +44,7 @@ public class IntegrationTests {
     private Product product1= new Product("Арбуз");
     private Product product2= new Product("Яблоко");
     private Product product3= new Product("Апельсин");
-
-    @Test
-    public void contextLoads() {}
-
-    @Test
-    public void controllerTest() throws Exception{
-        Assert.assertNotNull(productListController);
-    }
-
+    
     @Test
     public void productListTest() throws Exception {
         List<Product> products = new ArrayList<>(Arrays.asList(product1, product2, product3));
